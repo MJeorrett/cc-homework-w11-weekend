@@ -1,0 +1,14 @@
+table {
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+thead {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+td, th {
+  border: 1.5px solid beige;
+  padding: 6px;
+}

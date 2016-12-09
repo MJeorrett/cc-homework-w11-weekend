@@ -1,11 +1,11 @@
 body {
   background-color: dodgerblue;
+  color: beige;
   font-family: monospace;
 }
 
 h1 {
   text-align: center;
-  color: beige;
   font-size: 60px;
 }
 
@@ -27,6 +27,7 @@ h1 {
 #set-image {
   max-width: 600px;
   max-height: 400px;
+  margin-right: 20px;
 }
 
 #chart-container, #map-container {
