@@ -1,3 +1,4 @@
 node_modules/
 public/world_cities.txt
 public/helpers/keys.js
+public/helpers/highcharts.js
