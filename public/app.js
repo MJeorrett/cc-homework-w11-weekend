@@ -11,14 +11,17 @@
     var selectedSet = legoModel.getSetWithId( selectedSetId );
     console.log( "set selected:", selectedSet );
 
-    var setPiecesUrl = "https://rebrickable.com/api/get_set_parts?key=" + apiKey + "&format=json&set=" + selectedSet.id;
+    var partsObject
 
     legoModel.getPartsForSet( selectedSetId, function( parts ) {
+      partsObject = parts;
       console.log( "Recieved pieces for set", selectedSet.id, "(" + selectedSet.name + ")" + ":", parts );
+      populateTableWithParts( partsObject[0].parts );
     });
 
     var setImage = document.querySelector( '#set-image' );
     setImage.src = selectedSet.imageUrl;
+
   };
 
   var setUpMap = function() {
