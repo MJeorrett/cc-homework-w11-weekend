@@ -1,8 +1,9 @@
 var populateTableWithParts = function( partsArray, cityModel ) {
+  numberOfCountries = partsArray.length / 20;
   console.log( "populating table with parts:", partsArray );
   var partsTable = document.querySelector( '#parts-table' );
   var partsTableBody = partsTable.querySelector( 'tbody' );
-  partsArray.forEach( function( part ) {
+  for ( var i = 0; i < numberOfCountries; i++ ) {
     var tr = htmlHelper.create( 'tr' );
     var city = cityModel.getRandomCity();
     var countryTd = htmlHelper.create( 'td', city.country );
@@ -12,5 +13,5 @@ var populateTableWithParts = function( partsArray, cityModel ) {
     tr.appendChild( cityTd );
     tr.appendChild( partTd );
     partsTableBody.appendChild( tr );
-  });
+  };
 };
