@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Lego Hunt</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="helpers/ajaxHelper.js"></script>
+    <script src="helpers/htmlHelper.js"></script>
+    <script src="models/legoModel.js"></script>
+    <script src="models/cityModel.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="helpers/mapWrapper.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <h1>Lego Hunt</h1>
+    <div id="main-container">
+      <div id="set-select-container">
+        <select id="set-select"></select>
+      </div>
+      <div id="set-container">
+        <img id="set-image"></img>
+        <table id="parts-table">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="ui-container">
+        <div id="chart-container"></div>
+        <div id="map-container"></div>
+      </div>
+    </div>
+  </body>
+</html>
