@@ -5,6 +5,7 @@
   var setSelect;
   var setImageDiv;
   var mapWrapper;
+  var partsGraph;
 
   var setSelectClicked = function( ev ) {
     var selectedSetId = this.selectedOptions[0].setId;
@@ -16,7 +17,9 @@
     legoModel.getPartsForSet( selectedSetId, function( parts ) {
       partsObject = parts;
       console.log( "Recieved pieces for set", selectedSet.id, "(" + selectedSet.name + ")" + ":", parts );
-      populateTableWithParts( partsObject[0].parts, citiesModel );
+      var parts = partsObject[0].parts;
+      populateTableWithParts( parts, citiesModel );
+      partsGraph = new PartsGraph( parts );
     });
 
     var setImage = document.querySelector( '#set-image' );
