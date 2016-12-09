@@ -42,7 +42,7 @@ var createChart = function( data, container ) {
       text: "Parts Count"
     },
     series: [{
-      name: "pieces",
+      name: " ",
       data: pieceCounts
     }],
     xAxis: {
