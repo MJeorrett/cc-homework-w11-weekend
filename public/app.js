@@ -16,7 +16,7 @@
     legoModel.getPartsForSet( selectedSetId, function( parts ) {
       partsObject = parts;
       console.log( "Recieved pieces for set", selectedSet.id, "(" + selectedSet.name + ")" + ":", parts );
-      populateTableWithParts( partsObject[0].parts );
+      populateTableWithParts( partsObject[0].parts, citiesModel );
     });
 
     var setImage = document.querySelector( '#set-image' );
