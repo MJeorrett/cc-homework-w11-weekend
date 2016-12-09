@@ -29,9 +29,9 @@
   }
 
   var populateSetSelect = function() {
-    ajaxHelper.makeGetRequest( 'data/lego_sets.json', function( responseObject ) {
 
-      legoModel = new LegoModel( responseObject );
+    legoModel = new LegoModel();
+    legoModel.init( function() {
       console.log("Number of sets available to play with:", legoModel.numberOfSets() );
 
       setSelect = document.querySelector( '#set-select' );

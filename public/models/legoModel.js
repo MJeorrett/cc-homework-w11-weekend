@@ -1,8 +1,13 @@
-var LegoModel = function( data ) {
-  this.data = data;
+var LegoModel = function() {
 };
 
 LegoModel.prototype = {
+  init: function( callback ) {
+    ajaxHelper.makeGetRequest( 'data/lego_sets.json', function( setsData ) {
+      this.data = setsData;
+      callback();
+    }.bind( this ) );
+  },
   numberOfSets: function() {
     return this.data.length;
   },
