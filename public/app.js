@@ -28,12 +28,7 @@
     mapWrapper = new MapWrapper( mapContainer, center, zoom );
   }
 
-  window.onload = function() {
-    console.log( "The hunt for lego has started..." );
-
-    // setUpMap();
-
-    // LOAD LEGO DATA AND POLULATE SELECT
+  var populateSetSelect = function() {
     ajaxHelper.makeGetRequest( 'data/lego_sets.json', function( responseObject ) {
 
       legoModel = new LegoModel( responseObject );
@@ -48,6 +43,13 @@
         setSelect.appendChild( aOption );
       });
     });
+  }
+
+  window.onload = function() {
+    console.log( "The hunt for lego has started..." );
+
+    // setUpMap();
+    populateSetSelect();
 
     // LOAD CITIES DATA AND INITIALISE MODEL
     ajaxHelper.makeGetRequest( 'data/cities.json', function( responseObject ) {
