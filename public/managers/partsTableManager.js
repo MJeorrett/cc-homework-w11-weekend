@@ -5,8 +5,10 @@ var populateTableWithParts = function( partsArray, cityModel ) {
   partsArray.forEach( function( part ) {
     var tr = htmlHelper.create( 'tr' );
     var city = cityModel.getRandomCity();
-    var cityTd = htmlHelper.create( 'td', city.City );
+    var countryTd = htmlHelper.create( 'td', city.country );
+    var cityTd = htmlHelper.create( 'td', city.name );
     var partTd = htmlHelper.create( 'td', "?" );
+    tr.appendChild( countryTd );
     tr.appendChild( cityTd );
     tr.appendChild( partTd );
     partsTableBody.appendChild( tr );
