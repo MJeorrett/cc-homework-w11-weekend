@@ -30,8 +30,17 @@
     setUpMap();
   }
 
+  var hideUI = function() {
+    infoText.style.display = 'block';
+    setImageCanvas.style.display = 'none';
+    partsTable.style.display = 'none'
+    partsChartContainer.style.display = 'none';
+    mapContainer.style.display = 'none';
+  }
+
   var setSelectClicked = function( ev ) {
 
+    hideUI();
     infoText.innerText = "Fetching set information...";
 
     var selectedSetId = this.selectedOptions[0].setId;
@@ -81,6 +90,8 @@
     partsTable = document.querySelector( '#parts-table' );
     partsChartContainer = document.querySelector( '#parts-chart-container' );
     mapContainer = document.getElementById( 'map-container' );
+
+    hideUI();
 
     // initialise models
     citiesModel = new CitiesModel();
