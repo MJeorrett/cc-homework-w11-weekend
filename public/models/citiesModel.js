@@ -9,11 +9,11 @@ var CitiesModel = function( onload ) {
 CitiesModel.prototype = {
 
   numberOfCities: function() {
-    return this.data.length;
+    return this.cities.length;
   },
 
   getRandomCity: function() {
     var index = Math.round( Math.random() * this.numberOfCities(), 0 );
-    return this.data[index];
+    return this.cities[index];
   }
 };

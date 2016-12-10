@@ -35,20 +35,14 @@
     mapWrapper = new MapWrapper( mapContainer, center, zoom );
   }
 
-  var populateSetSelect = function() {
-
-    legoModel = new LegoModel();
-    legoModel.init( function() {
-      console.log("Number of sets available to play with:", legoModel.numberOfSets() );
-
-      setSelect = document.querySelector( '#set-select' );
-      setSelect.onchange = setSelectClicked;
-      setSelect.innerHtml = "";
-      legoModel.data.forEach( function( set ) {
-        var aOption = htmlHelper.create( 'option', set.name );
-        aOption.setId = set.id;
-        setSelect.appendChild( aOption );
-      });
+  var populateSetSelect = function( data ) {
+    setSelect = document.querySelector( '#set-select' );
+    setSelect.onchange = setSelectClicked;
+    setSelect.innerHtml = "";
+    legoModel.legoSets.forEach( function( set ) {
+      var aOption = htmlHelper.create( 'option', set.name );
+      aOption.setId = set.id;
+      setSelect.appendChild( aOption );
     });
   }
 
@@ -56,9 +50,11 @@
     console.log( "The hunt for lego has started..." );
 
     setUpMap();
-    populateSetSelect();
     citiesModel = new CitiesModel();
     colorsModel = new ColorsModel();
+    legoModel = new LegoModel( function() {
+      populateSetSelect();
+    });
   };
 
 })();

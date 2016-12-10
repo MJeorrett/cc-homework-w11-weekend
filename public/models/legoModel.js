@@ -1,18 +1,17 @@
-var LegoModel = function() {
+var LegoModel = function( onload ) {
+  ajaxHelper.makeGetRequest( "data/lego_sets.json", function( responseObject ) {
+    this.legoSets = responseObject;
+    console.log( "New LegoModel ready with", this.legoSets.length, "lego sets" );
+    if ( onload ) onload();
+  }.bind( this ) );
 };
 
 LegoModel.prototype = {
-  init: function( callback ) {
-    ajaxHelper.makeGetRequest( 'data/lego_sets.json', function( setsData ) {
-      this.data = setsData;
-      callback();
-    }.bind( this ) );
-  },
   numberOfSets: function() {
-    return this.data.length;
+    return this.legoSets.length;
   },
   getSetWithId: function( setId ) {
-    return this.data.find( function( set ) {
+    return this.legoSets.find( function( set ) {
       return set.id === setId;
     });
   },
