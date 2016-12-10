@@ -1,7 +1,5 @@
 createChart = function( data, container ) {
 
-  console.log("data:", data);
-
   var series = data.map( function( dataPoint ) {
     return {
       color: dataPoint.color ? dataPoint.color : 'black',

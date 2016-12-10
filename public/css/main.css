@@ -25,15 +25,21 @@ h1 {
   align-self: center;
 }
 
+#info-text {
+  text-align: center;
+  font-size: 38px;
+}
+
 #set-image-canvas {
   padding-right: 20px;
+  display: none;
 }
 
 #parts-chart-container, #map-container {
   width: 600px;
   height: 600px;
   background-color: white;
-  display: inline-block;
+  display: none;
 }
 
 #map-container {

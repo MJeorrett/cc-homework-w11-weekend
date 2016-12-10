@@ -2,8 +2,12 @@
 
   // DOM elements
   var setSelect;
+  var infoText;
   var setImageCanvas;
   var setImageContext;
+  var partsTable;
+  var partsChartContainer;
+  var mapContainer;
 
   // models
   var legoModel;
@@ -17,13 +21,20 @@
   var mapWrapper;
 
   var setSelectClicked = function( ev ) {
+
+    infoText.display = 'none';
+    setImageCanvas.style.display = 'inline-block';
+    partsTable.style.display = 'inline-block'
+    partsChartContainer.style.display = 'inline-block';
+    mapContainer.style.display = 'inline-block';
+
     var selectedSetId = this.selectedOptions[0].setId;
     var selectedSet = legoModel.getSetWithId( selectedSetId );
-    console.log( "set selected:", selectedSet );
+    console.log( "Set selected:", selectedSet );
 
     legoModel.getPartsForSet( selectedSetId, function( parts ) {
       console.log( "Recieved", parts.length, "parts for set", selectedSet.id, "(" + selectedSet.name + ")" );
-      populateTableWithParts( parts, citiesModel );
+      populateTableWithParts( partsTable, parts, citiesModel );
       partsChartManager.newChartWithParts( parts );
     });
 
@@ -37,7 +48,6 @@
   };
 
   var setUpMap = function() {
-    var mapContainer = document.getElementById( 'map-container' );
     var center = { lat: 51.5, lng: -0.1227758 };
     var zoom = 10;
     mapWrapper = new MapWrapper( mapContainer, center, zoom );
@@ -58,14 +68,17 @@
     console.log( "The hunt for lego has started..." );
 
     // fetch referneces to DOM elements
+    infoText = document.querySelector( '#info-text' );
     setImageCanvas = document.querySelector( '#set-image-canvas' );
     setImageContext = setImageCanvas.getContext( '2d' );
+    partsTable = document.querySelector( '#parts-table' );
+    partsChartContainer = document.querySelector( '#parts-chart-container' );
+    mapContainer = document.getElementById( 'map-container' );
 
     // initialise models
     citiesModel = new CitiesModel();
 
     colorsModel = new ColorsModel( function() {
-      var partsChartContainer = document.querySelector( '#parts-chart-container' );
       partsChartManager = new PartsChartManager( partsChartContainer, colorsModel );
     });
 

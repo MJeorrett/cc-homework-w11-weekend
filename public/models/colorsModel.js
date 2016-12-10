@@ -11,7 +11,11 @@ ColorsModel.prototype = {
     var color = this.colors.find( function( color ) {
       return color.color_name === colorName;
     });
-    if ( color.color_name === 'White' ) return '#f9f9f9';
-    return color ? '#' + color.rgb : 'black';
+
+    if ( color ) {
+      if ( color.color_name === 'White' ) return '#f9f9f9';
+      return '#' + color.rgb;
+    }
+    return 'darkgrey';
   }
 };
