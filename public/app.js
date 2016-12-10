@@ -57,13 +57,8 @@
 
     setUpMap();
     populateSetSelect();
+    citiesModel = new CitiesModel();
     colorsModel = new ColorsModel();
-
-    // LOAD CITIES DATA AND INITIALISE MODEL
-    ajaxHelper.makeGetRequest( 'data/cities.json', function( responseObject ) {
-      citiesModel = new CitiesModel( responseObject );
-      console.log( "Number of cities to find:", citiesModel.numberOfCities() );
-    })
   };
 
 })();
