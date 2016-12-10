@@ -2,12 +2,15 @@ var PartsChartManager = function( container, colorsModel ) {
   this.container = container;
   this.colorsModel = colorsModel;
   this.chart = null;
-  this.otherThresholdPerc = 0.1; // the percentage of max count below which colors are
-                             // grouped in other
+  this.parts = null;
+  this.otherThresholdPerc = 0.1; // the percentage of max count below which colors are grouped in other
 }
 
 PartsChartManager.prototype = {
   newChartWithParts: function( partsArray ) {
+
+    this.parts = partsArray;
+
     var rawColorCounts = this._getColoursInPartsArray( partsArray );
 
     var counts = rawColorCounts.map( function( rawColorCount ) {
