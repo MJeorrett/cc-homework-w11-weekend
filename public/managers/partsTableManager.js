@@ -11,20 +11,22 @@ PartsTableManager.prototype = {
 
     this.partsDirectory = {};
     var numberOfRows = partsArray.length / this.partsPerCountry;
+    var tempParts = partsArray.slice();
 
-    this.tableBody.innerHtml = "";
+    this.tableBody.innerHTML = "";
 
     for ( var i = 0; i < numberOfRows; i++ ) {
       var tr = htmlHelper.create( 'tr' );
       var country = this.countriesModel.getRandomCountry();
-      var parts = partsArray.splice( -this.partsPerCountry )
+      var parts = tempParts.splice( -this.partsPerCountry )
       this.partsDirectory[country.name] = parts;
       var nameTd = htmlHelper.create( 'td', country.name );
-      var partTd = htmlHelper.create( 'td', "0 /" + parts.length.toString() );
+      var partTd = htmlHelper.create( 'td', "0 / " + parts.length.toString() );
       tr.appendChild( nameTd );
       tr.appendChild( partTd );
       this.tableBody.appendChild( tr );
     };
-    console.log("parts directory:", this.partsDirectory);
+    
+    console.log("parts directory created:", this.partsDirectory);
   }
 };
