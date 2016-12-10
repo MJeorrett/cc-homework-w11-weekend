@@ -26,6 +26,8 @@
     partsTable.style.display = 'inline-block'
     partsChartContainer.style.display = 'inline-block';
     mapContainer.style.display = 'inline-block';
+
+    setUpMap();
   }
 
   var setSelectClicked = function( ev ) {
@@ -90,8 +92,6 @@
     legoModel = new LegoModel( function() {
       populateSetSelect();
     });
-
-    setUpMap();
   };
 
 })();
