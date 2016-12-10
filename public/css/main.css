@@ -29,7 +29,7 @@ h1 {
   padding-right: 20px;
 }
 
-#chart-container, #map-container {
+#parts-graph-container, #map-container {
   width: 600px;
   height: 600px;
   background-color: white;

@@ -1,18 +1,20 @@
 (function() {
 
-  // models
-  var legoModel;
-  var citiesModel;
-  var colorsModel;
-
   // DOM elements
   var setSelect;
   var setImageCanvas;
   var setImageContext;
 
+  // models
+  var legoModel;
+  var citiesModel;
+  var colorsModel;
+
+  // managers
+  var partsChartManager;
+
   // UI elements
   var mapWrapper;
-  var partsGraph;
 
   var setSelectClicked = function( ev ) {
     var selectedSetId = this.selectedOptions[0].setId;
@@ -20,9 +22,9 @@
     console.log( "set selected:", selectedSet );
 
     legoModel.getPartsForSet( selectedSetId, function( parts ) {
-      console.log( "Recieved", parts.length, "pieces for set", selectedSet.id, "(" + selectedSet.name + ")" );
+      console.log( "Recieved", parts.length, "parts for set", selectedSet.id, "(" + selectedSet.name + ")" );
       populateTableWithParts( parts, citiesModel );
-      partsGraph = new PartsGraph( parts );
+      partsChartManager.newChartWithParts( parts );
     });
 
     var setImage = new Image();
@@ -55,15 +57,23 @@
   window.onload = function() {
     console.log( "The hunt for lego has started..." );
 
+    // fetch referneces to DOM elements
     setImageCanvas = document.querySelector( '#set-image-canvas' );
     setImageContext = setImageCanvas.getContext( '2d' );
 
-    setUpMap();
+    // initialise models
     citiesModel = new CitiesModel();
-    colorsModel = new ColorsModel();
+
+    colorsModel = new ColorsModel( function() {
+      var partsChartContainer = document.querySelector( '#parts-chart-container' );
+      partsChartManager = new PartsChartManager( partsChartContainer, colorsModel );
+    });
+
     legoModel = new LegoModel( function() {
       populateSetSelect();
     });
+
+    setUpMap();
   };
 
 })();

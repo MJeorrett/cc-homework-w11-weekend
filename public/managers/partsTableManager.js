@@ -1,6 +1,6 @@
 var populateTableWithParts = function( partsArray, cityModel ) {
   numberOfCountries = partsArray.length / 20;
-  console.log( "populating table with parts:", partsArray );
+  console.log( "populating table with", partsArray.length, "parts" );
   var partsTable = document.querySelector( '#parts-table' );
   var partsTableBody = partsTable.querySelector( 'tbody' );
   for ( var i = 0; i < numberOfCountries; i++ ) {

@@ -1,32 +1,16 @@
-var createChart = function( data, container ) {
+createChart = function( data, container ) {
 
-  var series = Object.keys( data ).map( function( color ) {
+  console.log("data:", data);
+
+  var series = data.map( function( dataPoint ) {
     return {
-      y: data[color],
-      color: color
+      color: dataPoint.color ? dataPoint.color : 'black',
+      y: dataPoint.count
     };
   });
 
-  var rawPieceCounts = series.map( function( dataPoint ) {
-    return dataPoint.y;
-  });
-
-  var maxPieceCount = rawPieceCounts.reduce( function( max, count ) {
-    if ( count > max ) return count;
-    return max;
-  }, 0);
-
-  var pieceCounts = [];
-  var other = 0;
-  series.forEach( function( dataPoint ) {
-    var count = dataPoint.y;
-    count < maxPieceCount / 10 ? other += count : pieceCounts.push( dataPoint );
-  });
-
-  pieceCounts.push({ color: 'OTHER', y: other });
-
-  var categories = pieceCounts.map( function( dataPoint ) {
-    return dataPoint.color;
+  var categories = data.map( function( dataPoint ) {
+    return dataPoint.name;
   });
 
   var chart = new Highcharts.Chart({
@@ -39,10 +23,11 @@ var createChart = function( data, container ) {
     },
     series: [{
       name: " ",
-      data: pieceCounts
+      data: series
     }],
     xAxis: {
       categories: categories
     }
   });
+  return chart;
 };
