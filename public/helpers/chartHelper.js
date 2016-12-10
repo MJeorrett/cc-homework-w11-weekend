@@ -25,6 +25,9 @@ createChart = function( data, container ) {
     }],
     xAxis: {
       categories: categories
+    },
+    yAxis: {
+      title: ""
     }
   });
   return chart;
