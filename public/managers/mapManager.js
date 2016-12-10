@@ -73,14 +73,14 @@ MapManager.prototype = {
           lat: latLng.lat + ( Math.random() * 5 ) - 2.5,
           lng: latLng.lng + ( Math.random() * 5 ) - 2.5
         },
-        part.element_img_url
+        part
       );
     }
   },
 
-  addMarker: function( coords, iconUrl ) {
+  addMarker: function( coords, part ) {
     var image = {
-      url: iconUrl,
+      url: part.element_img_url,
       size: new google.maps.Size(71, 71),
       origin: new google.maps.Point(0, 0),
       anchor: new google.maps.Point(17, 34),
@@ -92,6 +92,10 @@ MapManager.prototype = {
       icon: image,
       map: this.map
     });
-    console.log( marker );
+    marker.legoPart = part;
+    var listner = this.partCollectedListener
+    google.maps.event.addListener( marker, 'click', function( ev ) {
+      listner( this.legoPart );
+    } );
   }
 };

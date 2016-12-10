@@ -69,7 +69,7 @@
   };
 
   var partCollected = function( part ) {
-    log( "part collected:", part );
+    console.log( "part collected:", part );
   };
 
   window.onload = function() {
