@@ -8,7 +8,7 @@ var PartsChartManager = function( container, colorsModel ) {
 
 PartsChartManager.prototype = {
   newChartWithParts: function( partsArray ) {
-
+console.log( "partsArray:", partsArray)
     this.parts = partsArray;
 
     var rawColorCounts = this._getColoursInPartsArray( partsArray );
@@ -31,7 +31,7 @@ PartsChartManager.prototype = {
     if ( otherCount > 0 ) {
       finalColorCounts.push({ name: 'OTHER', color: 'dodgerblue', count: otherCount });
     }
-
+    console.log( "finalColorCounts:", finalColorCounts );
     this.chart = createChart( finalColorCounts, this.container );
   },
 
