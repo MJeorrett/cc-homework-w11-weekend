@@ -58,9 +58,9 @@
   };
 
   var populateSetSelect = function( data ) {
-    setSelect = document.querySelector( '#set-select' );
     setSelect.onchange = setSelectClicked;
-    setSelect.innerHtml = "";
+    setSelect.innerHTML = "";
+    setSelect.innerHTML = "<option value='' disabled selected>Select a Set</option>";
     legoModel.legoSets.forEach( function( set ) {
       var aOption = htmlHelper.create( 'option', set.name );
       aOption.setId = set.id;
@@ -72,6 +72,7 @@
     console.log( "The hunt for lego has started..." );
 
     // fetch referneces to DOM elements
+    setSelect = document.querySelector( '#set-select' );
     infoText = document.querySelector( '#info-text' );
     setContainer = document.querySelector( '#set-container' );
     uiContainer = document.querySelector( '#ui-container' );
