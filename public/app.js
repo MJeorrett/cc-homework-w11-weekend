@@ -2,12 +2,11 @@
 
   // DOM elements
   var setSelect;
+  var setContainer;
+  var uiContainer;
   var infoText;
   var setImageCanvas;
   var setImageContext;
-  var partsTable;
-  var partsChartContainer;
-  var mapContainer;
 
   // models
   var legoModel;
@@ -15,27 +14,20 @@
   var colorsModel;
 
   // managers
+  var partsTableManager;
   var partsChartManager;
-
-  // UI elements
-  var mapWrapper;
+  var mapManager;
 
   var showUI = function() {
     infoText.style.display = 'none';
-    setImageCanvas.style.display = 'inline-block';
-    partsTable.style.display = 'inline-block'
-    partsChartContainer.style.display = 'inline-block';
-    mapContainer.style.display = 'inline-block';
-
-    setUpMap();
+    setContainer.style.display = 'flex';
+    uiContainer.style.display = 'flex';
   }
 
   var hideUI = function() {
     infoText.style.display = 'block';
-    setImageCanvas.style.display = 'none';
-    partsTable.style.display = 'none'
-    partsChartContainer.style.display = 'none';
-    mapContainer.style.display = 'none';
+    setContainer.style.display = 'none';
+    uiContainer.style.display = 'none';
   }
 
   var setSelectClicked = function( ev ) {
@@ -48,10 +40,12 @@
     console.log( "Set selected:", selectedSet );
 
     legoModel.getPartsForSet( selectedSetId, function( parts ) {
-      showUI();
       console.log( "Recieved", parts.length, "parts for set", selectedSet.id, "(" + selectedSet.name + ")" );
-      populateTableWithParts( partsTable, parts, citiesModel );
+
+      partsTableManager.populateTableWithParts( parts );
       partsChartManager.newChartWithParts( parts );
+      showUI();
+      mapManager.newMap(); // must be after showing otherwise map doesn't display until window is resized
     });
 
     var setImage = new Image();
@@ -62,12 +56,6 @@
     };
     setImage.src = selectedSet.imageUrl;
   };
-
-  var setUpMap = function() {
-    var center = { lat: 51.5, lng: -0.1227758 };
-    var zoom = 10;
-    mapWrapper = new MapWrapper( mapContainer, center, zoom );
-  }
 
   var populateSetSelect = function( data ) {
     setSelect = document.querySelector( '#set-select' );
@@ -85,17 +73,19 @@
 
     // fetch referneces to DOM elements
     infoText = document.querySelector( '#info-text' );
+    setContainer = document.querySelector( '#set-container' );
+    uiContainer = document.querySelector( '#ui-container' );
     setImageCanvas = document.querySelector( '#set-image-canvas' );
     setImageContext = setImageCanvas.getContext( '2d' );
-    partsTable = document.querySelector( '#parts-table' );
-    partsChartContainer = document.querySelector( '#parts-chart-container' );
     mapContainer = document.getElementById( 'map-container' );
 
-    hideUI();
+    // initialise models and managers
+    var partsTable = document.querySelector( '#parts-table' );
+    citiesModel = new CitiesModel( function() {
+      partsTableManager = new PartsTableManager( partsTable, citiesModel );
+    });
 
-    // initialise models
-    citiesModel = new CitiesModel();
-
+    var partsChartContainer = document.querySelector( '#parts-chart-container' );
     colorsModel = new ColorsModel( function() {
       partsChartManager = new PartsChartManager( partsChartContainer, colorsModel );
     });
@@ -103,6 +93,10 @@
     legoModel = new LegoModel( function() {
       populateSetSelect();
     });
+
+    var center = { lat: 51.5, lng: -0.1227758 };
+    var zoom = 10;
+    mapManager = new MapManager( mapContainer, center, zoom );
   };
 
 })();
