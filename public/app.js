@@ -42,10 +42,10 @@
     legoModel.getPartsForSet( selectedSetId, function( parts ) {
       console.log( "Recieved", parts.length, "parts for set", selectedSet.id, "(" + selectedSet.name + ")" );
 
-      partsTableManager.populateTableWithParts( parts );
+      var countries = partsTableManager.populateTableWithParts( parts );
       partsChartManager.newChartWithParts( parts );
       showUI();
-      mapManager.newMap(); // must be after showing otherwise map doesn't display until window is resized
+      mapManager.newMap( countries, countryClicked ); // must be after showing otherwise map doesn't display until window is resized
     });
 
     var setImage = new Image();
@@ -66,7 +66,11 @@
       aOption.setId = set.id;
       setSelect.appendChild( aOption );
     });
-  }
+  };
+
+  var countryClicked = function( countryCode ) {
+    console.log( "country clicked:", countryCode );
+  };
 
   window.onload = function() {
     console.log( "The hunt for lego has started..." );

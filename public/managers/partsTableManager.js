@@ -14,19 +14,28 @@ PartsTableManager.prototype = {
     var tempParts = partsArray.slice();
 
     this.tableBody.innerHTML = "";
+    var countries = [];
 
     for ( var i = 0; i < numberOfRows; i++ ) {
       var tr = htmlHelper.create( 'tr' );
       var country = this.countriesModel.getRandomCountry();
       var parts = tempParts.splice( -this.partsPerCountry )
-      this.partsDirectory[country.name] = parts;
+      this.partsDirectory[country.alpha3Code] = parts;
+      countries.push(
+        {
+          code: country.alpha3Code,
+          lat: country.latlng[0],
+          lng: country.latlng[1]
+        }
+      );
       var nameTd = htmlHelper.create( 'td', country.name );
       var partTd = htmlHelper.create( 'td', "0 / " + parts.length.toString() );
       tr.appendChild( nameTd );
       tr.appendChild( partTd );
       this.tableBody.appendChild( tr );
     };
-    
+
     console.log("parts directory created:", this.partsDirectory);
+    return countries;
   }
 };
