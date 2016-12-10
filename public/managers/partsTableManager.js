@@ -2,24 +2,29 @@ var PartsTableManager = function( tableElement, countriesModel ) {
   this.tableElement = tableElement;
   this.tableBody = tableElement.querySelector( 'tbody' );
   this.countriesModel = countriesModel;
+  this.partsPerCountry = 20;
+  this.partsDirectory = {};
 };
 
 PartsTableManager.prototype = {
   populateTableWithParts: function( partsArray ) {
 
-    var numberOfRows = partsArray.length / 20;
-    // console.log( "Populating table with", partsArray.length, "parts" );
+    this.partsDirectory = {};
+    var numberOfRows = partsArray.length / this.partsPerCountry;
 
     this.tableBody.innerHtml = "";
 
     for ( var i = 0; i < numberOfRows; i++ ) {
       var tr = htmlHelper.create( 'tr' );
       var country = this.countriesModel.getRandomCountry();
+      var parts = partsArray.splice( -this.partsPerCountry )
+      this.partsDirectory[country.name] = parts;
       var nameTd = htmlHelper.create( 'td', country.name );
-      var partTd = htmlHelper.create( 'td', "?" );
+      var partTd = htmlHelper.create( 'td', "0 /" + parts.length.toString() );
       tr.appendChild( nameTd );
       tr.appendChild( partTd );
       this.tableBody.appendChild( tr );
     };
+    console.log("parts directory:", this.partsDirectory);
   }
 };
