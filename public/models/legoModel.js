@@ -18,11 +18,11 @@ LegoModel.prototype = {
   },
   getPartsForSet: function( setId, callback ) {
     var set = this.getSetWithId( setId );
-    ajaxHelper.makeGetRequest( 'data/example_parts_request.json', function( responseObject ) {
-      callback( responseObject );
-    });
-    // ajaxHelper.makeGetRequest( "https://rebrickable.com/api/get_set_parts?key=" + apiKey + "&format=json&set=" + set.id, function( responseObject ) {
+    // ajaxHelper.makeGetRequest( 'data/example_parts_request.json', function( responseObject ) {
     //   callback( responseObject );
     // });
+    ajaxHelper.makeGetRequest( "https://rebrickable.com/api/get_set_parts?key=" + apiKey + "&format=json&set=" + set.id, function( responseObject ) {
+      callback( responseObject );
+    });
   }
 };

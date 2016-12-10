@@ -54,7 +54,7 @@
   window.onload = function() {
     console.log( "The hunt for lego has started..." );
 
-    // setUpMap();
+    setUpMap();
     populateSetSelect();
 
     // LOAD CITIES DATA AND INITIALISE MODEL
