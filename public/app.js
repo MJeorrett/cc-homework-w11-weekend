@@ -20,19 +20,24 @@
   // UI elements
   var mapWrapper;
 
-  var setSelectClicked = function( ev ) {
-
-    infoText.display = 'none';
+  var showUI = function() {
+    infoText.style.display = 'none';
     setImageCanvas.style.display = 'inline-block';
     partsTable.style.display = 'inline-block'
     partsChartContainer.style.display = 'inline-block';
     mapContainer.style.display = 'inline-block';
+  }
+
+  var setSelectClicked = function( ev ) {
+
+    infoText.innerText = "Fetching set information...";
 
     var selectedSetId = this.selectedOptions[0].setId;
     var selectedSet = legoModel.getSetWithId( selectedSetId );
     console.log( "Set selected:", selectedSet );
 
     legoModel.getPartsForSet( selectedSetId, function( parts ) {
+      showUI();
       console.log( "Recieved", parts.length, "parts for set", selectedSet.id, "(" + selectedSet.name + ")" );
       populateTableWithParts( partsTable, parts, citiesModel );
       partsChartManager.newChartWithParts( parts );
