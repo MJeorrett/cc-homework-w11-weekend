@@ -20,20 +20,16 @@ h1 {
 #set-select-container, #set-container, #ui-container {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   width: 100%;
   margin-top: 20px;
-}
-
-#set-image {
-  max-width: 600px;
-  max-height: 400px;
-  margin-right: 20px;
 }
 
 #chart-container, #map-container {
   width: 600px;
   height: 600px;
   background-color: white;
+  display: inline-block;
 }
 
 #map-container {

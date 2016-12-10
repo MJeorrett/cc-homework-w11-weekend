@@ -11,8 +11,6 @@ var createChart = function( data, container ) {
     return dataPoint.y;
   });
 
-  console.log( pieceCounts );
-
   var maxPieceCount = rawPieceCounts.reduce( function( max, count ) {
     if ( count > max ) return count;
     return max;
@@ -30,8 +28,6 @@ var createChart = function( data, container ) {
   var categories = pieceCounts.map( function( dataPoint ) {
     return dataPoint.color;
   });
-
-  console.log( "series:", series );
 
   var chart = new Highcharts.Chart({
     chart: {

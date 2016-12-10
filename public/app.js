@@ -1,10 +1,16 @@
 (function() {
 
+  // models
   var legoModel;
   var citiesModel;
   var colorsModel;
+
+  // DOM elements
   var setSelect;
-  var setImageDiv;
+  var setImageCanvas;
+  var setImageContext;
+
+  // UI elements
   var mapWrapper;
   var partsGraph;
 
@@ -23,9 +29,13 @@
       partsGraph = new PartsGraph( parts );
     });
 
-    var setImage = document.querySelector( '#set-image' );
-    setImage.src = selectedSet.imageUrl;
+    var setImage = new Image();
+    setImage.onload = function() {
 
+      setImageContext.clearRect(0, 0, setImageCanvas.width, setImageCanvas.height);
+      setImageContext.drawImage( setImage, 0, 0, setImageCanvas.width, setImageCanvas.height );
+    };
+    setImage.src = selectedSet.imageUrl;
   };
 
   var setUpMap = function() {
@@ -48,6 +58,9 @@
 
   window.onload = function() {
     console.log( "The hunt for lego has started..." );
+
+    setImageCanvas = document.querySelector( '#set-image-canvas' );
+    setImageContext = setImageCanvas.getContext( '2d' );
 
     setUpMap();
     citiesModel = new CitiesModel();
