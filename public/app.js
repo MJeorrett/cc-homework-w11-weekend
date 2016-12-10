@@ -45,7 +45,7 @@
       var countries = partsTableManager.populateTableWithParts( parts );
       partsChartManager.newChartWithParts( parts );
       showUI();
-      mapManager.newMap( countries, countryClicked ); // must be after showing otherwise map doesn't display until window is resized
+      mapManager.newMap( countries, partCollected ); // must be after showing otherwise map doesn't display until window is resized
     });
 
     var setImage = new Image();
@@ -68,8 +68,8 @@
     });
   };
 
-  var countryClicked = function( countryCode ) {
-    console.log( "country clicked:", countryCode );
+  var partCollected = function( part ) {
+    log( "part collected:", part );
   };
 
   window.onload = function() {
@@ -100,8 +100,7 @@
     });
 
     var center = { lat: 51.5, lng: -0.1227758 };
-    var zoom = 10;
-    mapManager = new MapManager( mapContainer, center, zoom );
+    mapManager = new MapManager( mapContainer, center, 1 );
   };
 
 })();

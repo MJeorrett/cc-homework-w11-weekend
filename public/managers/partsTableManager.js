@@ -14,20 +14,14 @@ PartsTableManager.prototype = {
     var tempParts = partsArray.slice();
 
     this.tableBody.innerHTML = "";
-    var countries = [];
+    var countries = {};
 
     for ( var i = 0; i < numberOfRows; i++ ) {
       var tr = htmlHelper.create( 'tr' );
       var country = this.countriesModel.getRandomCountry();
       var parts = tempParts.splice( -this.partsPerCountry )
       this.partsDirectory[country.alpha3Code] = parts;
-      countries.push(
-        {
-          code: country.alpha3Code,
-          lat: country.latlng[0],
-          lng: country.latlng[1]
-        }
-      );
+      countries[country.alpha2Code] = parts;
       var nameTd = htmlHelper.create( 'td', country.name );
       var partTd = htmlHelper.create( 'td', "0 / " + parts.length.toString() );
       tr.appendChild( nameTd );
