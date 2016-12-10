@@ -13,16 +13,20 @@ h1 {
   justify-content: center;
 }
 
-#set-select {
-  align-self: center;
-}
-
 #set-select-container, #set-container, #ui-container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   width: 100%;
   margin-top: 20px;
+}
+
+#set-select {
+  align-self: center;
+}
+
+#set-image-canvas {
+  padding-right: 20px;
 }
 
 #chart-container, #map-container {
