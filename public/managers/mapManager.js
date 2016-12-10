@@ -37,6 +37,7 @@ MapManager.prototype = {
           if ( countryClicked in countries ) {
             console.log( "country found:", countryClicked );
             this._scatterLego( countries[countryClicked], latLng );
+            delete countries[countryClicked];
           }
           else {
             console.log( "country clicked:", countryClicked );
@@ -49,7 +50,7 @@ MapManager.prototype = {
   _wasCountryClickedAt: function( latlng, onresult ) {
     this.geocoder.geocode( {'location': latlng} , function( results, status ) {
       if (status === 'OK') {
-        console.log( "reverse geocoding results:", results );
+        console.log( "reverse geocoding results received:", results );
         if ( results[0] ) {
 
           var lastResultIndex = results.length - 1;
@@ -66,20 +67,31 @@ MapManager.prototype = {
   },
 
   _scatterLego: function( partsArray, latLng ) {
-    console.log("latLng:", latLng);
     for( var part of partsArray ) {
-      this.addMarker({
-        lat: latLng.lat + ( Math.random() * 5 ),
-        lng: latLng.lng + ( Math.random() * 5 )
-      });
+      this.addMarker(
+        {
+          lat: latLng.lat + ( Math.random() * 5 ) - 2.5,
+          lng: latLng.lng + ( Math.random() * 5 ) - 2.5
+        },
+        part.element_img_url
+      );
     }
   },
 
-  addMarker: function( coords ) {
-    console.log("adding marker at:", coords );
+  addMarker: function( coords, iconUrl ) {
+    var image = {
+      url: iconUrl,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(60, 60)
+    };
+
     var marker = new google.maps.Marker({
       position: coords,
+      icon: image,
       map: this.map
     });
+    console.log( marker );
   }
 };
