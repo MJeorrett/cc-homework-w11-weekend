@@ -2,6 +2,7 @@
 
   var legoModel;
   var citiesModel;
+  var colorsModel;
   var setSelect;
   var setImageDiv;
   var mapWrapper;
@@ -56,6 +57,7 @@
 
     setUpMap();
     populateSetSelect();
+    colorsModel = new ColorsModel();
 
     // LOAD CITIES DATA AND INITIALISE MODEL
     ajaxHelper.makeGetRequest( 'data/cities.json', function( responseObject ) {
