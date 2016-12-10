@@ -10,7 +10,7 @@
 
   // models
   var legoModel;
-  var citiesModel;
+  var countriesModel;
   var colorsModel;
 
   // managers
@@ -81,8 +81,8 @@
 
     // initialise models and managers
     var partsTable = document.querySelector( '#parts-table' );
-    citiesModel = new CitiesModel( function() {
-      partsTableManager = new PartsTableManager( partsTable, citiesModel );
+    countriesModel = new CountriesModel( function() {
+      partsTableManager = new PartsTableManager( partsTable, countriesModel );
     });
 
     var partsChartContainer = document.querySelector( '#parts-chart-container' );

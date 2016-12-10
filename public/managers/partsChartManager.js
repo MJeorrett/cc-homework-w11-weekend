@@ -25,7 +25,9 @@ PartsChartManager.prototype = {
       return true;
     });
 
-    finalColorCounts.push({ name: 'OTHER', color: 'dodgerblue', count: otherCount });
+    if ( otherCount > 0 ) {
+      finalColorCounts.push({ name: 'OTHER', color: 'dodgerblue', count: otherCount });
+    }
 
     this.chart = createChart( finalColorCounts, this.container );
   },
