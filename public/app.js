@@ -19,12 +19,8 @@
     var selectedSet = legoModel.getSetWithId( selectedSetId );
     console.log( "set selected:", selectedSet );
 
-    var partsObject
-
     legoModel.getPartsForSet( selectedSetId, function( parts ) {
-      partsObject = parts;
-      console.log( "Recieved pieces for set", selectedSet.id, "(" + selectedSet.name + ")" + ":", parts );
-      var parts = partsObject[0].parts;
+      console.log( "Recieved", parts.length, "pieces for set", selectedSet.id, "(" + selectedSet.name + ")" );
       populateTableWithParts( parts, citiesModel );
       partsGraph = new PartsGraph( parts );
     });

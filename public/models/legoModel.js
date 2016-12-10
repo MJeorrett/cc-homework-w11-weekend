@@ -21,7 +21,8 @@ LegoModel.prototype = {
     //   callback( responseObject );
     // });
     ajaxHelper.makeGetRequest( "https://rebrickable.com/api/get_set_parts?key=" + apiKey + "&format=json&set=" + set.id, function( responseObject ) {
-      callback( responseObject );
+      var parts = responseObject[0].parts;
+      callback( parts );
     });
   }
 };
