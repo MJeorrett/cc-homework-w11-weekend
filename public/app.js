@@ -33,6 +33,7 @@
   var setSelectClicked = function( ev ) {
 
     hideUI();
+    setSelect.disabled = true;
     infoText.innerText = "Fetching set information...";
 
     var selectedSetId = this.selectedOptions[0].setId;
@@ -45,6 +46,7 @@
       var countries = partsTableManager.populateTableWithParts( parts );
       partsChartManager.newChartWithParts( parts );
       showUI();
+      setSelect.disabled = false;
       mapManager.newMap( countries, partCollected ); // must be after showing otherwise map doesn't display until window is resized
     });
 
