@@ -68,8 +68,9 @@
     });
   };
 
-  var partCollected = function( part ) {
-    console.log( "part collected:", part );
+  var partCollected = function( countryCode, part ) {
+    console.log( "part collected", part, "from country", countryCode );
+    partsTableManager.partCollected( countryCode, part );
   };
 
   window.onload = function() {

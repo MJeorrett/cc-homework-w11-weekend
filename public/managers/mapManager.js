@@ -37,7 +37,7 @@ MapManager.prototype = {
         function( countryClicked ) {
           if ( countryClicked in countries ) {
             console.log( "country found:", countryClicked );
-            this._scatterLego( countries[countryClicked], latLng );
+            this._scatterLego( countryClicked, countries[countryClicked], latLng );
             delete countries[countryClicked];
           }
           else {
@@ -67,9 +67,10 @@ MapManager.prototype = {
     });
   },
 
-  _scatterLego: function( partsArray, latLng ) {
+  _scatterLego: function( countryCode, partsArray, latLng ) {
     for( var part of partsArray ) {
       var marker = this.addMarker(
+        countryCode,
         {
           lat: latLng.lat + ( Math.random() * 5 ) - 2.5,
           lng: latLng.lng + ( Math.random() * 5 ) - 2.5
@@ -88,7 +89,7 @@ MapManager.prototype = {
     }.bind( this ), 1500 );
   },
 
-  addMarker: function( coords, part ) {
+  addMarker: function( countryCode, coords, part ) {
     var image = {
       url: part.element_img_url,
       size: new google.maps.Size(71, 71),
@@ -106,7 +107,7 @@ MapManager.prototype = {
     var markers = this.markers;
     var listner = this.partCollectedListener
     google.maps.event.addListener( marker, 'click', function( ev ) {
-      listner( this.legoPart );
+      listner( countryCode, this.legoPart );
       this.setMap( null );
       var markerIndex = markers.indexOf( this );
       markers.splice( markerIndex, 1 );

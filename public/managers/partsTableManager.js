@@ -20,16 +20,29 @@ PartsTableManager.prototype = {
       var tr = htmlHelper.create( 'tr' );
       var country = this.countriesModel.getRandomCountry();
       var parts = tempParts.splice( -this.partsPerCountry )
-      this.partsDirectory[country.alpha3Code] = parts;
       countries[country.alpha2Code] = parts;
       var nameTd = htmlHelper.create( 'td', country.name );
       var partTd = htmlHelper.create( 'td', "0 / " + parts.length.toString() );
       tr.appendChild( nameTd );
       tr.appendChild( partTd );
       this.tableBody.appendChild( tr );
+
+      this.partsDirectory[country.alpha2Code] = {
+        td: partTd,
+        totalParts: parts.length,
+        partsUncollected: parts
+      };
     };
 
-    console.log("parts directory created:", this.partsDirectory);
+    console.log( "parts directory created:", this.partsDirectory );
     return countries;
+  },
+
+  partCollected: function( countryCode, part ) {
+    var countryData = this.partsDirectory[countryCode];
+    var partIndex = countryData.partsUncollected.indexOf( part );
+    countryData.partsUncollected.splice( partIndex, 1 );
+    var partsCollected = countryData.totalParts - countryData.partsUncollected.length;
+    countryData.td.innerText = partsCollected.toString() + " / " + countryData.totalParts;
   }
 };
