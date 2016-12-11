@@ -79,17 +79,22 @@ MapManager.prototype = {
         part,
         function( marker ) {
           this.markers.push( marker );
+          if ( partsArray.indexOf( part ) === partsArray.length - 1 ) {
+            zoomMap();
+          }
         }.bind( this )
       );
-    }
+    };
 
-    // setTimeout( function() {
-    //   var bounds = new google.maps.LatLngBounds();
-    //   this.markers.forEach( function( marker) {
-    //     bounds.extend( marker.getPosition() );
-    //   });
-    //   this.map.fitBounds( bounds );
-    // }.bind( this ), 1500 );
+    var zoomMap = function() {
+      setTimeout( function() {
+        var bounds = new google.maps.LatLngBounds();
+        this.markers.forEach( function( marker) {
+          bounds.extend( marker.getPosition() );
+        });
+        this.map.fitBounds( bounds );
+      }.bind( this ), 1500 );
+    }.bind( this );
   },
 
   _addMarker: function( countryCode, coords, part, onadded ) {
