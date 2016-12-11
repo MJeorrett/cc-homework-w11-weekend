@@ -149,7 +149,7 @@ MapManager.prototype = {
       var bricksetUrl = part.element_img_url;
 
       bricksetImageResult = function() {
-        console.log("bricksetImage:",this );
+        // console.log("bricksetImage:",this );
         if ( this.width > 10 && this.height > 10 ) {
           onfind( bricksetUrl );
         }
