@@ -59,8 +59,9 @@ PartsChartManager.prototype = {
         return colorInfo.color === colorName;
       });
     }
-    
-    collectedInfo.numberFound += parseInt( part.qty );
+
+    // collectedInfo.numberFound += parseInt( part.qty );
+    collectedInfo.numberFound += 1;
     var seriesIndex = this.colorsCollected.indexOf( collectedInfo );
     this.chart.series[0].data[seriesIndex].update({ y: collectedInfo.numberFound } );
   },
@@ -70,7 +71,8 @@ PartsChartManager.prototype = {
     var colorCounts = {};
     partsArray.forEach( function( part ) {
       var color = part.color_name;
-      var count = parseInt( part.qty );
+      // var count = parseInt( part.qty );
+      var count = 1;
       if ( color in colorCounts ) {
         colorCounts[color] += count;
       }
