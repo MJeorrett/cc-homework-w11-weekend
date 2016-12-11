@@ -71,6 +71,7 @@
   var partCollected = function( countryCode, part ) {
     console.log( "part collected", part, "from country", countryCode );
     partsTableManager.partCollected( countryCode, part );
+    partsChartManager.partFound( part );
   };
 
   window.onload = function() {

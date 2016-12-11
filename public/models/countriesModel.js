@@ -13,7 +13,7 @@ CountriesModel.prototype = {
   },
 
   getRandomCountry: function() {
-    var index = Math.round( Math.random() * this.numberOfCountries(), 0 );
+    var index = Math.round( Math.random() * ( this.numberOfCountries() - 1 ), 0 );
     return this.countries[index];
   }
 };
