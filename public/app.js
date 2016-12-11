@@ -69,7 +69,7 @@
   };
 
   var partCollected = function( countryCode, part ) {
-    console.log( "part collected", part, "from country", countryCode );
+    console.log( "part collected", part.part_name );
     partsTableManager.partCollected( countryCode, part );
     partsChartManager.partFound( part );
   };
