@@ -59,10 +59,10 @@ MapManager.prototype = {
           var country = lastResult.address_components[0].short_name;
           onresult( country );
         } else {
-          console.log('No reverse geocoding results found');
+          console.log( 'No reverse geocoding results found' );
         }
       } else {
-        console.log('Geocoder failed due to: ' + status);
+        console.log( 'Geocoder failed due to:', status );
       }
     });
   },
