@@ -1,22 +1,4 @@
-createChart = function( data, container ) {
-
-  var series = [];
-  series[0] = data.map( function( dataPoint ) {
-    return {
-      color: dataPoint.color ? dataPoint.color : 'black',
-      y: 0
-    };
-  });
-  series[1] = data.map( function( dataPoint ) {
-    return {
-      color: 'lightgrey',
-      y: dataPoint.count
-    };
-  });
-
-  var categories = data.map( function( dataPoint ) {
-    return dataPoint.name;
-  });
+createChart = function( series, cateogires, container ) {
 
   var chart = new Highcharts.Chart({
     chart: {

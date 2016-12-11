@@ -10,40 +10,39 @@ LegoModel.prototype = {
   numberOfSets: function() {
     return this.legoSets.length;
   },
+
   getSetWithId: function( setId ) {
     return this.legoSets.find( function( set ) {
       return set.id === setId;
     });
   },
+
   getPartsForSet: function( setId, callback ) {
     var set = this.getSetWithId( setId );
-    // ajaxHelper.makeGetRequest( 'data/example_parts_request.json', function( responseObject ) {
-    //   callback( responseObject );
-    // });
-    ajaxHelper.makeGetRequest( "https://rebrickable.com/api/get_set_parts?key=" + apiKey + "&format=json&set=" + set.id, function( responseObject ) {
+    var url = "https://rebrickable.com/api/get_set_parts"
+        url += "?key=" + apiKey;
+        url += "&format=json";
+        url += "&set=" + set.id;
+
+    ajaxHelper.makeGetRequest( url, function( responseObject ) {
       var parts = responseObject[0].parts;
       parts = shuffle( parts );
+      console.log( "Recieved", parts.length, "parts for set", setId );
       callback( parts );
     });
+  },
+
+  getImageUrlForSet: function( setId ) {
+    var set = this.getSetWithId( setId );
+    return set.imageUrl;
+  },
+
+  getImageUrlForPart: function( part ) {
+    var legoUrl = "http://cache.lego.com/media/bricks/5/1/" + part.element_id + ".jpg";
+    var bricksetElementUrl = part.element_img_url;
+    var bricksetPartUrl = part.part_img_url;
+    var urlsToTry = [ legoUrl, bricksetElementUrl, bricksetPartUrl ];
+
+
   }
 };
-
-// taken from http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-var shuffle = function(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}

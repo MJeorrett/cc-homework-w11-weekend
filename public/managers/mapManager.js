@@ -1,77 +1,55 @@
-var MapManager = function( container, defaultCenter, defaultZoom ) {
-  this.map = null;
-  this.container = container;
+var MapManager = function( container, defaultCenter, defaultZoom, countryClickedListener, partCollectedListener ) {
   this.defaultCenter = defaultCenter;
   this.defaultZoom = defaultZoom;
-  this.countries = null;
   this.marginForError = 1;
-  this.geocoder = new google.maps.Geocoder();
-  this.markers = [];
-};
+  this.partCollectedListener = partCollectedListener;
 
-MapManager.prototype = {
+  this.map = new google.maps.Map(
+    this.container,
+    {
+      center: this.defaultCenter,
+      zoom: this.defaultZoom
+    }
+  );
 
-  newMap: function( countries, partCollectedListener ) {
+  google.maps.event.addListener( this.map, 'click', function( ev ) {
+    var latLng = {
+      lat: ev.latLng.lat(),
+      lng: ev.latLng.lng()
+    };
+    var geocoder = new google.maps.Geocoder();
 
-    console.log( "initialising new map with countries:", countries );
-
-    this.partCollectedListener = partCollectedListener;
-
-    this.map = new google.maps.Map(
-      this.container,
-      {
-        center: this.defaultCenter, zoom: this.defaultZoom
-      }
-    );
-
-    google.maps.event.addListener( this.map, 'click', function( ev ) {
-
-      var latLng = {
-        lat: ev.latLng.lat(),
-        lng: ev.latLng.lng()
-      };
-      // console.log( "map clicked at:", latLng.lat, ",", latLng.lng, "," );
-
-      this._wasCountryClickedAt(
-        latLng,
-        function( countryClicked ) {
-          if ( countryClicked in countries ) {
-            console.log( "country found:", countryClicked );
-            this._scatterLego( countryClicked, countries[countryClicked], latLng );
-            delete countries[countryClicked];
-          }
-          else {
-            console.log( "country clicked:", countryClicked );
-          }
-        }.bind( this )
-      );
-    }.bind( this ) );
-  },
-
-  _wasCountryClickedAt: function( latlng, onresult ) {
-    this.geocoder.geocode( {'location': latlng} , function( results, status ) {
+    geocoder.geocode( {'location': latlng} , function( results, status ) {
       if (status === 'OK') {
         console.log( "reverse geocoding results received:", results );
         if ( results[0] ) {
-
           var lastResultIndex = results.length - 1;
           var lastResult = results[lastResultIndex];
           var country = lastResult.address_components[0].short_name;
-          onresult( country );
-        } else {
-          console.log( 'No reverse geocoding results found' );
+          countryClickedListener( countryCode, latLng );
         }
       } else {
         console.log( 'Geocoder failed due to:', status );
       }
     });
+  });
+}
+
+MapManager.prototype = {
+  refresh: function() {
+    this.map.setCenter( this.defaultCenter );
+    this.map.setZoom( this.defaultZoom );
+    this.markers.forEach( function( marker ) {
+      marker.setMap( null );
+    });
+    this.markers = [];
   },
 
-  _scatterLego: function( countryCode, partsArray, latLng ) {
-    console.log("scattering parts:", partsArray );
+  scatterLego: function( parts, latLng ) {
+    console.log( "scattering parts:", partsGroup );
     var currentMarkers = [];
     for( var part of partsArray ) {
-      this._addMarker(
+      this._addLeoPart(
         countryCode,
         {
           lat: latLng.lat + ( Math.random() * 5 ) - 2.5,
@@ -88,18 +66,21 @@ MapManager.prototype = {
       );
     };
 
-    var zoomMap = function() {
-      setTimeout( function() {
-        var bounds = new google.maps.LatLngBounds();
-        currentMarkers.forEach( function( marker) {
-          bounds.extend( marker.getPosition() );
-        });
-        this.map.fitBounds( bounds );
-      }.bind( this ), 1500 );
-    }.bind( this );
+    setTimeout( function() {
+      this.zoomMapToMarkers( currentMarkers );
+    }.bind( this ), 1500 );
   },
 
-  _addMarker: function( countryCode, coords, part, onadded ) {
+  zoomMapToMarkers: function( markersArray ) {
+    if ( !markersArray ) var markersArray = this.markers;
+    var bounds = new google.maps.LatLngBounds();
+    markersArray.forEach( function( marker) {
+      bounds.extend( marker.getPosition() );
+    });
+    this.map.fitBounds( bounds );
+  },
+
+  _addLegoPart: function( countryCode, coords, part, onadded ) {
     this._getPartImageUrl( part, function( partImageUrl ) {
       // console.log( "image found at:", partImageUrl );
       var image = {
@@ -185,4 +166,4 @@ MapManager.prototype = {
       bricksetPartImage.src = bricksetPartUrl;
     }
   }
-};
+}
