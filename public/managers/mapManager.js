@@ -30,7 +30,7 @@ MapManager.prototype = {
         lat: ev.latLng.lat(),
         lng: ev.latLng.lng()
       };
-      console.log( "map clicked at:", latLng.lat, ",", latLng.lng, "," );
+      // console.log( "map clicked at:", latLng.lat, ",", latLng.lng, "," );
 
       this._wasCountryClickedAt(
         latLng,
@@ -99,7 +99,7 @@ MapManager.prototype = {
 
   _addMarker: function( countryCode, coords, part, onadded ) {
     this._getPartImageUrl( part, function( partImageUrl ) {
-      console.log( "image found at:", partImageUrl );
+      // console.log( "image found at:", partImageUrl );
       var image = {
         url: partImageUrl,
         size: new google.maps.Size(71, 71),
@@ -135,7 +135,7 @@ MapManager.prototype = {
         onfind( legoUrl );
       }
       else {
-        console.log( "no lego image found, trying brickset...");
+        // console.log( "no lego image found, trying brickset...");
         tryBrickSetImage();
       }
     };
@@ -154,7 +154,7 @@ MapManager.prototype = {
           onfind( bricksetUrl );
         }
         else {
-          console.log( "no brickset element img found, trying part..." );
+          // console.log( "no brickset element img found, trying part..." );
           tryBrickSetPartImage();
         }
       }
@@ -169,7 +169,6 @@ MapManager.prototype = {
       var bricksetPartUrl = part.part_img_url;
 
       bricksetPartImageResult = function() {
-        console.log("bricksetPartImage:",this );
         if ( this.width > 10 && this.height > 10 ) {
           onfind( bricksetPartUrl );
         }
