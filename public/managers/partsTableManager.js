@@ -45,6 +45,10 @@ PartsTableManager.prototype = {
     var partsCollected = countryData.totalParts - countryData.partsUncollected.length;
     countryData.td.innerText = partsCollected.toString() + " / " + countryData.totalParts;
 
+    if ( partsCollected === countryData.totalParts ) {
+      countryData.td.style.backgroundColor = 'green';
+    }
+
     // console.log("parts remaining:", countryData.partsUncollected);
   }
 };
