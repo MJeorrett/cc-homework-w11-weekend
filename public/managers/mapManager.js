@@ -103,10 +103,13 @@ MapManager.prototype = {
       map: this.map
     });
     marker.legoPart = part;
+    var markers = this.markers;
     var listner = this.partCollectedListener
     google.maps.event.addListener( marker, 'click', function( ev ) {
       listner( this.legoPart );
       this.setMap( null );
+      var markerIndex = markers.indexOf( this );
+      markers.splice( markerIndex, 1 );
     });
     return marker;
   }
