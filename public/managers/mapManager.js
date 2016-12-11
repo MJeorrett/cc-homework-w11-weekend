@@ -6,6 +6,7 @@ var MapManager = function( container, defaultCenter, defaultZoom ) {
   this.countries = null;
   this.marginForError = 1;
   this.geocoder = new google.maps.Geocoder();
+  this.markers = [];
 };
 
 MapManager.prototype = {
@@ -68,14 +69,23 @@ MapManager.prototype = {
 
   _scatterLego: function( partsArray, latLng ) {
     for( var part of partsArray ) {
-      this.addMarker(
+      var marker = this.addMarker(
         {
           lat: latLng.lat + ( Math.random() * 5 ) - 2.5,
           lng: latLng.lng + ( Math.random() * 5 ) - 2.5
         },
         part
       );
+      this.markers.push( marker );
     }
+
+    setTimeout( function() {
+      var bounds = new google.maps.LatLngBounds();
+      this.markers.forEach( function( marker) {
+        bounds.extend( marker.getPosition() );
+      });
+      this.map.fitBounds( bounds );
+    }.bind( this ), 1500 );
   },
 
   addMarker: function( coords, part ) {
@@ -96,6 +106,8 @@ MapManager.prototype = {
     var listner = this.partCollectedListener
     google.maps.event.addListener( marker, 'click', function( ev ) {
       listner( this.legoPart );
-    } );
+      this.setMap( null );
+    });
+    return marker;
   }
 };
