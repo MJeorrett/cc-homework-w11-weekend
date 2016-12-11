@@ -68,50 +68,115 @@ MapManager.prototype = {
   },
 
   _scatterLego: function( countryCode, partsArray, latLng ) {
+    console.log("scattering parts:", partsArray );
     for( var part of partsArray ) {
-      var marker = this.addMarker(
+      this._addMarker(
         countryCode,
         {
           lat: latLng.lat + ( Math.random() * 5 ) - 2.5,
           lng: latLng.lng + ( Math.random() * 5 ) - 2.5
         },
-        part
+        part,
+        function( marker ) {
+          this.markers.push( marker );
+        }.bind( this )
       );
-      this.markers.push( marker );
     }
 
-    setTimeout( function() {
-      var bounds = new google.maps.LatLngBounds();
-      this.markers.forEach( function( marker) {
-        bounds.extend( marker.getPosition() );
-      });
-      this.map.fitBounds( bounds );
-    }.bind( this ), 1500 );
+    // setTimeout( function() {
+    //   var bounds = new google.maps.LatLngBounds();
+    //   this.markers.forEach( function( marker) {
+    //     bounds.extend( marker.getPosition() );
+    //   });
+    //   this.map.fitBounds( bounds );
+    // }.bind( this ), 1500 );
   },
 
-  addMarker: function( countryCode, coords, part ) {
-    var image = {
-      url: part.element_img_url,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(60, 60)
+  _addMarker: function( countryCode, coords, part, onadded ) {
+    this._getPartImageUrl( part, function( partImageUrl ) {
+      console.log( "image found at:", partImageUrl );
+      var image = {
+        url: partImageUrl,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(60, 60)
+      };
+
+      var marker = new google.maps.Marker({
+        position: coords,
+        icon: image,
+        map: this.map
+      });
+      marker.legoPart = part;
+      var markers = this.markers;
+      var listner = this.partCollectedListener
+      google.maps.event.addListener( marker, 'click', function( ev ) {
+        listner( countryCode, this.legoPart );
+        this.setMap( null );
+        var markerIndex = markers.indexOf( this );
+        markers.splice( markerIndex, 1 );
+      });
+      onadded( marker );
+    }.bind( this ) );
+  },
+
+  _getPartImageUrl: function( part, onfind ) {
+    var legoUrl = "http://cache.lego.com/media/bricks/5/1/" + part.element_id + ".jpg";
+
+    var legoImageResult = function() {
+      // console.log( "lego image size:", this.width, "x", this.height );
+      if ( this.width > 10 && this.height > 10 ) {
+        onfind( legoUrl );
+      }
+      else {
+        console.log( "no lego image found, trying brickset...");
+        tryBrickSetImage();
+      }
     };
 
-    var marker = new google.maps.Marker({
-      position: coords,
-      icon: image,
-      map: this.map
-    });
-    marker.legoPart = part;
-    var markers = this.markers;
-    var listner = this.partCollectedListener
-    google.maps.event.addListener( marker, 'click', function( ev ) {
-      listner( countryCode, this.legoPart );
-      this.setMap( null );
-      var markerIndex = markers.indexOf( this );
-      markers.splice( markerIndex, 1 );
-    });
-    return marker;
+    var legoImage = new Image();
+    legoImage.onload = legoImageResult;
+    legoImage.onerror = legoImageResult;
+    legoImage.src = legoUrl;
+
+    var tryBrickSetImage = function() {
+      var bricksetUrl = part.element_img_url;
+
+      bricksetImageResult = function() {
+        console.log("bricksetImage:",this );
+        if ( this.width > 10 && this.height > 10 ) {
+          onfind( bricksetUrl );
+        }
+        else {
+          console.log( "no brickset element img found, trying part..." );
+          tryBrickSetPartImage();
+        }
+      }
+
+      var bricksetImage = new Image();
+      bricksetImage.onload = bricksetImageResult;
+      bricksetImage.onerror = bricksetImageResult;
+      bricksetImage.src = bricksetUrl;
+    }
+
+    var tryBrickSetPartImage = function() {
+      var bricksetPartUrl = part.part_img_url;
+
+      bricksetPartImageResult = function() {
+        console.log("bricksetPartImage:",this );
+        if ( this.width > 10 && this.height > 10 ) {
+          onfind( bricksetPartUrl );
+        }
+        else {
+          console.log( "no image found for part:", part );
+        }
+      }
+
+      var bricksetPartImage = new Image();
+      bricksetPartImage.onload = bricksetPartImageResult;
+      bricksetPartImage.onerror = bricksetPartImageResult;
+      bricksetPartImage.src = bricksetPartUrl;
+    }
   }
 };

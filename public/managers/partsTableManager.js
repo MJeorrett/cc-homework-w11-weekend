@@ -44,5 +44,7 @@ PartsTableManager.prototype = {
     countryData.partsUncollected.splice( partIndex, 1 );
     var partsCollected = countryData.totalParts - countryData.partsUncollected.length;
     countryData.td.innerText = partsCollected.toString() + " / " + countryData.totalParts;
+
+    console.log("parts remaining:", countryData.partsUncollected);
   }
 };
