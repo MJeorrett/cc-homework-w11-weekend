@@ -69,6 +69,7 @@ MapManager.prototype = {
 
   _scatterLego: function( countryCode, partsArray, latLng ) {
     console.log("scattering parts:", partsArray );
+    var currentMarkers = [];
     for( var part of partsArray ) {
       this._addMarker(
         countryCode,
@@ -79,6 +80,7 @@ MapManager.prototype = {
         part,
         function( marker ) {
           this.markers.push( marker );
+          currentMarkers.push( marker );
           if ( partsArray.indexOf( part ) === partsArray.length - 1 ) {
             zoomMap();
           }
@@ -89,7 +91,7 @@ MapManager.prototype = {
     var zoomMap = function() {
       setTimeout( function() {
         var bounds = new google.maps.LatLngBounds();
-        this.markers.forEach( function( marker) {
+        currentMarkers.forEach( function( marker) {
           bounds.extend( marker.getPosition() );
         });
         this.map.fitBounds( bounds );
