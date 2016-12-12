@@ -69,6 +69,7 @@ MapManager.prototype = {
 
   _scatterLego: function( countryCode, partsArray, latLng ) {
     console.log("scattering parts:", partsArray );
+    var newMarkers = [];
     for( var part of partsArray ) {
       this._addMarker(
         countryCode,
@@ -79,6 +80,7 @@ MapManager.prototype = {
         part,
         function( marker ) {
           this.markers.push( marker );
+          newMarkers.push( marker );
           if ( partsArray.indexOf( part ) === partsArray.length - 1 ) {
             zoomMap();
           }
@@ -86,15 +88,18 @@ MapManager.prototype = {
       );
     };
 
-    var zoomMap = function() {
-      setTimeout( function() {
-        var bounds = new google.maps.LatLngBounds();
-        this.markers.forEach( function( marker) {
-          bounds.extend( marker.getPosition() );
-        });
-        this.map.fitBounds( bounds );
-      }.bind( this ), 1500 );
-    }.bind( this );
+    setTimeout( function() {
+      this.zoomToMarkers( newMarkers );
+    }.bind( this ), 1500 );
+  },
+
+  zoomToMarkers: function( markersArray ) {
+    if ( !markersArray ) markersArray = this.markers;
+    var bounds = new google.maps.LatLngBounds();
+    markersArray.forEach( function( marker) {
+      bounds.extend( marker.getPosition() );
+    });
+    this.map.fitBounds( bounds );
   },
 
   _addMarker: function( countryCode, coords, part, onadded ) {
