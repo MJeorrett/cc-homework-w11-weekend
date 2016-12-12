@@ -63,7 +63,9 @@ PartsChartManager.prototype = {
     // collectedInfo.numberFound += parseInt( part.qty );
     collectedInfo.numberFound += 1;
     var seriesIndex = this.colorsCollected.indexOf( collectedInfo );
-    this.chart.series[0].data[seriesIndex].update({ y: collectedInfo.numberFound } );
+    this.chart.series[1].data[seriesIndex].update({ y: collectedInfo.numberFound } );
+    var currentNotFound = this.chart.series[0].data[seriesIndex].y;
+    this.chart.series[0].data[seriesIndex].update({ y: currentNotFound - 1 });
   },
 
   _getColoursInPartsArray: function( partsArray ) {

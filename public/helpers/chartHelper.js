@@ -1,13 +1,13 @@
 createChart = function( data, container ) {
 
   var series = [];
-  series[0] = data.map( function( dataPoint ) {
+  series[1] = data.map( function( dataPoint ) {
     return {
       color: dataPoint.color ? dataPoint.color : 'black',
       y: 0
     };
   });
-  series[1] = data.map( function( dataPoint ) {
+  series[0] = data.map( function( dataPoint ) {
     return {
       color: 'lightgrey',
       y: dataPoint.count
@@ -25,6 +25,11 @@ createChart = function( data, container ) {
     },
     title: {
       text: "Parts Count"
+    },
+    plotOptions: {
+        series: {
+            stacking: 'normal'
+        }
     },
     series: [
       {
