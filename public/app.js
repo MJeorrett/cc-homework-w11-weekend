@@ -19,12 +19,14 @@
   var mapManager;
 
   var showUI = function() {
+    setSelect.disabled = false;
     infoText.style.display = 'none';
     setContainer.style.display = 'flex';
     uiContainer.style.display = 'flex';
   }
 
   var hideUI = function() {
+    setSelect.disabled = true;
     infoText.style.display = 'block';
     setContainer.style.display = 'none';
     uiContainer.style.display = 'none';
