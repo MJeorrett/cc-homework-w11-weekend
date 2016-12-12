@@ -81,9 +81,6 @@ MapManager.prototype = {
         function( marker ) {
           this.markers.push( marker );
           newMarkers.push( marker );
-          if ( partsArray.indexOf( part ) === partsArray.length - 1 ) {
-            zoomMap();
-          }
         }.bind( this )
       );
     };
